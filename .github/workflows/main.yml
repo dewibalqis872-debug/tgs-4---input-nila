@@ -1,0 +1,27 @@
+name: Build C++ EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile C++
+        shell: cmd
+        run: cl /EHsc /std:c++17 /O2 main.cpp /Fe:InputNilai.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: InputNilai-Windows-EXE
+          path: InputNilai.exe
